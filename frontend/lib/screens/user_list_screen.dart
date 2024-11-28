@@ -303,7 +303,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error adding user.';
+        _errorMessage = 'Error adding user .';
       });
     } finally {
       setState(() {
