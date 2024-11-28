@@ -60,24 +60,85 @@ class HomeScreen extends StatelessWidget {
                 if (role == 'admin')
                   const PopupMenuItem(
                     value: 'users',
-                    child: Text('Liste des utilisateurs'),
+                    child: Text('List of user'),
                   ),
                 if (role == 'user')
                   const PopupMenuItem(
                     value: 'sheep',
-                    child: Text('Liste des moutons'),
+                    child: Text('List of sheep'),
                   ),
                 const PopupMenuItem(
                   value: 'logout',
-                  child: Text('Se déconnecter'),
+                  child: Text('Logout'),
                 ),
               ];
             },
           ),
         ],
       ),
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Drawer Header
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+            ),
+            // Drawer Menu Items
+            ListTile(
+              leading: const Icon(Icons.person, color: Colors.blue),
+              title: const Text('Profil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()),
+                );
+              },
+            ),
+            if (role == 'admin')
+              ListTile(
+                leading: const Icon(Icons.people, color: Colors.blue),
+                title: const Text('Liste of user'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UserListScreen()),
+                  );
+                },
+              ),
+            if (role == 'user')
+              ListTile(
+                leading: const Icon(Icons.list, color: Colors.blue),
+                title: const Text('List of sheep'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListOfSheepScreen()),
+                  );
+                },
+              ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('logout', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                logout(context);
+              },
+            ),
+          ],
+        ),
+      ),
       body: const Center(
-        child: Text('Bienvenue sur l\'application!'),
+        child: Text('Welcome'),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [

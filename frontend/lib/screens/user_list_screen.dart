@@ -29,7 +29,7 @@ class _UserListScreenState extends State<UserListScreen> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur lors de la récupération des utilisateurs.';
+        _errorMessage = 'Error retrieving users.';
         _isLoading = false;
       });
     }
@@ -44,11 +44,11 @@ class _UserListScreenState extends State<UserListScreen> {
       await ApiService.deleteUser(userId);
       _refreshUsers();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Utilisateur supprimé avec succès')),
+        const SnackBar(content: Text('User successfully deleted')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur : $e')),
+        SnackBar(content: Text('Error : $e')),
       );
     }
   }
@@ -83,7 +83,7 @@ class _UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liste des utilisateurs'),
+        title: const Text('List of users'),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -98,10 +98,10 @@ class _UserListScreenState extends State<UserListScreen> {
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     columns: const [
-                      DataColumn(label: Text('Nom')),
-                      DataColumn(label: Text('Prénom')),
+                      DataColumn(label: Text('Name')),
+                      DataColumn(label: Text('LastName')),
                       DataColumn(label: Text('Email')),
-                      DataColumn(label: Text('Rôle')),
+                      DataColumn(label: Text('Role')),
                       DataColumn(label: Text('Actions')),
                     ],
                     rows: _users.map((user) {
@@ -121,14 +121,14 @@ class _UserListScreenState extends State<UserListScreen> {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () => _deleteUser(user['_id']),
                                 color: Colors.red,
-                                tooltip: 'Supprimer',
+                                tooltip: 'Delete',
                               ),
                               // Bouton de modification avec animation
                               IconButton(
                                 icon: const Icon(Icons.edit),
                                 onPressed: () => _editUser(user['_id']),
                                 color: Colors.blue,
-                                tooltip: 'Modifier',
+                                tooltip: 'Update',
                               ),
                             ],
                           )),
@@ -179,7 +179,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur de chargement des données utilisateur.';
+        _errorMessage = 'Error retrieving users.';
       });
     }
   }
@@ -206,7 +206,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur lors de la mise à jour de l\'utilisateur.';
+        _errorMessage = 'Error updating user.';
       });
     } finally {
       setState(() {
@@ -218,7 +218,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Modifier l\'utilisateur'),
+      title: const Text('Update User'),
       content: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -229,11 +229,11 @@ class _EditUserDialogState extends State<EditUserDialog> {
                         style: const TextStyle(color: Colors.red)),
                   TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Nom'),
+                    decoration: const InputDecoration(labelText: 'FirstName'),
                   ),
                   TextField(
                     controller: _lastNameController,
-                    decoration: const InputDecoration(labelText: 'Prénom'),
+                    decoration: const InputDecoration(labelText: 'LastName'),
                   ),
                   TextField(
                     controller: _emailController,
@@ -246,7 +246,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _updateUser,
-                    child: const Text('Sauvegarder'),
+                    child: const Text('Save'),
                   ),
                 ],
               ),
@@ -303,7 +303,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur lors de l\'ajout de l\'utilisateur.';
+        _errorMessage = 'Error adding user.';
       });
     } finally {
       setState(() {
@@ -315,7 +315,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Ajouter un utilisateur'),
+      title: const Text('Add User'),
       content: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -330,7 +330,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
                   ),
                   TextField(
                     controller: _lastNameController,
-                    decoration: const InputDecoration(labelText: 'Prénom'),
+                    decoration: const InputDecoration(labelText: 'LastName'),
                   ),
                   TextField(
                     controller: _emailController,
@@ -340,17 +340,16 @@ class _AddUserDialogState extends State<AddUserDialog> {
                     controller:
                         _passwordController, // Champ pour le mot de passe
                     obscureText: true, // Masquer le mot de passe
-                    decoration:
-                        const InputDecoration(labelText: 'Mot de passe'),
+                    decoration: const InputDecoration(labelText: 'Password'),
                   ),
                   TextField(
                     controller: _roleController,
-                    decoration: const InputDecoration(labelText: 'Rôle'),
+                    decoration: const InputDecoration(labelText: 'Role'),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _addUser,
-                    child: const Text('Ajouter'),
+                    child: const Text('Add'),
                   ),
                 ],
               ),
