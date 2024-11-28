@@ -33,4 +33,64 @@ const getUsers = async (req, res) => {
   res.json(users);
 };
 
-module.exports = { loginUser, addUser, getUsers };
+
+// Update User Method
+const updateUser = async (req, res) => {
+  const { id } = req.params; // Get user ID from params
+  const { name, lastName, email, password, role } = req.body;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user data
+    if (name) user.name = name;
+    if (lastName) user.lastName = lastName;
+    if (email) user.email = email;
+    if (password) user.password = await bcrypt.hash(password, 10); // Hash password if it is provided
+    if (role) user.role = role;
+
+    await user.save(); // Save updated user
+    res.status(200).json({ message: 'User updated successfully' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+// Get user by ID (added)
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+// Delete User
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByIdAndDelete(id);  // Using findByIdAndDelete
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
+module.exports = { loginUser, addUser,getUsers, updateUser,getUserById, deleteUser };
